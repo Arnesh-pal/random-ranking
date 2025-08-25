@@ -43,7 +43,6 @@ const io = new Server(server, {
 });
 
 // --- Database Connection ---
-// Note: Removed deprecated options { useNewUrlParser, useUnifiedTopology }
 mongoose.connect(process.env.MONGO_URI)
     .then(() => {
         console.log("MongoDB connected successfully");
@@ -64,6 +63,17 @@ const getLeaderboard = async () => {
 };
 
 // --- API Routes ---
+
+// ROOT ROUTE - For confirming the server is live
+app.get('/', (req, res) => {
+    res.status(200).json({ message: 'Welcome to the Random Ranking API!' });
+});
+
+// HEALTH CHECK ROUTE - For Uptime Robot
+app.get('/health', (req, res) => {
+    res.status(200).json({ status: 'UP' });
+});
+
 
 // GET: Fetch all users
 app.get('/api/users', async (req, res) => {
